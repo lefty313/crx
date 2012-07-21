@@ -5,6 +5,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+# Use this gem to fake file interaction
+# https://github.com/defunkt/fakefs/blob/master/test/fakefs_test.rb
+
 require 'crx'
 require 'pry'
 
