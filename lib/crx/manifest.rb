@@ -1,20 +1,12 @@
-require 'forwardable'
-require 'yaml'
-
 module Crx
-  class Manifest < Struct.new(:opt)
-    extend Forwardable 
+  class Manifest
     include Crx::Saver
 
-    def_delegator :opt, :to_yaml
+    save_object :@hash, path: 'manifest.json'
 
-    def path
-      "manifest.yml"
-    end
-
-    def file
-      opt
-    end
+    def initialize(hash)
+      @hash = hash
+    end 
 
   end
 end

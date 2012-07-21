@@ -1,17 +1,20 @@
+require 'json'
+
 module Crx
   module Saver
 
-    def file
-      raise NotImplementedError
+    def self.included(base)
+      base.extend ClassMethods
     end
 
-    def path
-      raise NotImplementedError
-    end
-
-    def save
-      File.open(path,"w") do |f|
-        f.write(file.to_yaml)
+    module ClassMethods
+      def save_object( object, opts)
+        define_method(:save) do
+          File.open(opts[:path],"w") do |f|
+            receiver = instance_variable_get(object)
+            f.write(receiver.send(opts[:convert] || :to_json))
+          end
+        end
       end
     end
 

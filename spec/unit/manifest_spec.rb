@@ -4,9 +4,9 @@ require 'yaml'
 describe Crx::Manifest do
   subject { Crx::Manifest.new(manifest) }
 
-  it 'should dump to yml' do
-    subject.should_receive(:to_yaml).and_return(manifest.to_yaml)
-    subject.to_yaml
+  it 'should save with proper content' do
+    subject.save
+    File.read("manifest.json").should match(manifest.to_json)
   end
 
   private

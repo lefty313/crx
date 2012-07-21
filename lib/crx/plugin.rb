@@ -3,7 +3,6 @@ require 'forwardable'
 module Crx
   class Plugin < Struct.new(:opts)
     extend Forwardable
-    include Crx::Saver
 
     def_delegator :@manifest, :save, :save_manifest
 
