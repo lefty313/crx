@@ -9,6 +9,11 @@ describe Crx::Plugin do
     its(:version) { should == "0.0.1" }
     its(:description) { should == "my random description"}
 
+    it 'should create manifest.yml' do
+      subject.save_manifest
+      File.exist?("manifest.yml").should be_true
+    end
+
   end
 
 end

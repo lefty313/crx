@@ -12,7 +12,7 @@ describe Crx::Manifest do
   private
 
     def manifest
-      @simple_manifest ||= {
+      @manifest ||= {
         name: 'my extension',
         description: 'my description',
         version: '0.0.2'

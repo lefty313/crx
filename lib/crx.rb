@@ -1,4 +1,6 @@
 require "crx/version"
+require "crx/saver"
+
 require "crx/plugin"
 require "crx/manifest"
 
