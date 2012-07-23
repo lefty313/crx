@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 class Saveable
   include Crx::Saver
 
@@ -9,7 +11,7 @@ class Saveable
 
 end
 
-# save_object :opt, convert: :to_json, name: 'manifest.yml', force: true
+# save_object :opt, convert: :to_json, path: 'manifest.yml', force: true
 
 describe Crx::Saver do
   subject { Saveable.new }
@@ -24,7 +26,7 @@ describe Crx::Saver do
     File.read(path).should match(content.to_json)
   end
 
-  it 'should save to nested path' do
+  it 'should save to nested path' do 
     subject.save_path = 'very/nested/second_path.json'
     subject.save
     File.read('very/nested/second_path.json')
