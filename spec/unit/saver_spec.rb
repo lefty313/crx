@@ -24,6 +24,22 @@ describe Crx::Saver do
     File.read(path).should match(content.to_json)
   end
 
+  it 'should save to nested path' do
+    subject.save_path = 'very/nested/second_path.json'
+    subject.save
+    File.read('very/nested/second_path.json')
+  end
+
+  it 'should change path' do
+    subject.save_path = 'very/nested/second_path.json'
+    subject.save_path.should == 'very/nested/second_path.json'
+  end
+
+  it 'should change convert method' do
+    subject.convert_to = :big_boobs
+    subject.convert_to.should == :big_boobs 
+  end
+
   # it 'should raise NotImplementedError if class not respond to file' do
   #   expect { subject.file }.to raise_error( NotImplementedError )
   # end

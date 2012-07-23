@@ -8,5 +8,9 @@ describe Crx::Plugin do
     its(:version) { should == "0.0.1" }
     its(:description) { should == "my random description"}
 
+    xit 'should create new plugin' do
+      subject.create.should be_true
+    end
+
   end
 end

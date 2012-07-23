@@ -15,5 +15,10 @@ module Crx
       @manifest = Manifest.new(opts)
     end
 
+    # def create
+    #   @manifest.save
+    #   @application.save
+    # end
+
   end
 end
