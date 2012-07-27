@@ -6,6 +6,7 @@ require 'core_ext/string'
 
 # require 'crx/templates/manifest'
 
+require 'crx/thor_command'
 require 'crx/command'
 require 'crx/manifest'
 require 'crx/plugin'

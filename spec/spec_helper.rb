@@ -17,11 +17,11 @@ RSpec.configure do |config|
   config.filter_run :focus
 
   config.before(:all) do
-    TestDirectory = Dir.mktmpdir
-    Dir.chdir TestDirectory
+    @test_directory = Dir.mktmpdir
+    Dir.chdir @test_directory
   end
 
   config.after(:all) do
-    FileUtils.remove_entry_secure TestDirectory, true
+    FileUtils.rm_r @test_directory
   end
 end

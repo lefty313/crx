@@ -8,15 +8,6 @@ describe Crx::Command do
   # it { should respond_to :install }
   # it { should respond_to :new }
 
-  it 'should be thor class' do
-    subject.class.superclass.should == Thor
-  end
-
-  # it 'should add manifest' do
-  #   Crx::Manifest.should_receive(:new).with({}).and_return(true)
-  #   subject.add :manifest, {}
-  # end
-
   # it 'should create folder' do
   #   subject.create_folder 'my_new_extension'
   #   Dir.exists?('my_new_extension').should be_true
@@ -24,7 +15,7 @@ describe Crx::Command do
 
   it 'should create manifest' do
     subject.add 'manifest'
-    File.exists?('manifest.rb').should be_true
+    File.exists?('manifest.json').should be_true
   end
 
   it 'should raise error with wrong name' do
