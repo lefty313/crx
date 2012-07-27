@@ -7,16 +7,21 @@
 
 # Use this gem to fake file interaction
 # https://github.com/defunkt/fakefs/blob/master/test/fakefs_test.rb
-
 require 'crx'
 require 'pry'
-require 'fakefs'
-require 'fakefs/spec_helpers'
 
 RSpec.configure do |config|
-  config.include FakeFS::SpecHelpers
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
+
+  config.before(:all) do
+    TestDirectory = Dir.mktmpdir
+    Dir.chdir TestDirectory
+  end
+
+  config.after(:all) do
+    FileUtils.remove_entry_secure TestDirectory, true
+  end
 end

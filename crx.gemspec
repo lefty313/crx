@@ -21,8 +21,8 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
   s.add_development_dependency "pry"
-  s.add_development_dependency "fakefs"
   s.add_development_dependency "libnotify"
   s.add_development_dependency "guard-rspec"
-  # s.add_runtime_dependency "rest-client"
+
+  s.add_runtime_dependency "thor"
 end
