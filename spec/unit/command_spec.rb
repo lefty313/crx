@@ -25,17 +25,10 @@ describe Crx::Command do
   # end
 
   it 'should create browser plugin' do
-    command :new, directory
-
     expected_files = ['manifest.json']
 
-    # plugin.should have_files(expected_files)
-
-
-    expected_files.each do |path|
-      file_path = "#{directory}/#{path}"
-      File.exists?(file_path).should be_true
-    end
+    command :new, directory
+    directory.should have_files(expected_files)
   end
 
   # it 'should create page plugin' do

@@ -10,6 +10,41 @@
 require 'crx'
 require 'pry'
 
+RSpec::Matchers.define :have_files do |expected|
+  match do |actual|
+    @included, @missing = [], []
+
+    expected.each do |path|
+      full_path = "#{actual}/#{path}"
+
+
+      if File.exists?(full_path) 
+        @included << path
+      else
+        @missing << path
+      end
+    end
+    @missing.empty?
+  end
+
+  failure_message_for_should do |actual|
+    "expected that #{actual} directory would include #{norm(@missing)}"
+  end
+
+  failure_message_for_should_not do |actual|
+    "expected that #{actual} directory would not include #{norm(@included)}"
+  end
+
+  description do
+    "includes #{norm(expected)} files"
+  end
+
+  def norm(array)
+    array.join(', ')
+  end
+
+end
+
 RSpec.configure do |config|
 
   config.treat_symbols_as_metadata_keys_with_true_values = true
@@ -33,3 +68,4 @@ end
 def fixture(name)
   File.read "#{test_path}/fixtures/#{name}"
 end
+
