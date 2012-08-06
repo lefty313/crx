@@ -2,14 +2,18 @@ module Crx
 
   class Command < ThorCommand
 
+    method_option :mode, aliases: '-m', desc: 'extension ui type', default: 'browser'
     desc "create_folder", "create main extension directory"
-    def create_folder(name)
-      empty_directory name
+    def new(directory)
+      empty_directory directory
+
+      inside directory do
+        invoke :add, ['manifest']
+      end
     end
 
     desc "add", "add extension files like manifest, content_script"
     def add(name)
-      @name = name
       template file_type(name)
     end
 
@@ -28,4 +32,3 @@ module Crx
 
   end
 end
-

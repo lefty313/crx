@@ -3,24 +3,44 @@ require 'spec_helper'
 describe Crx::Command do
 
   it { should respond_to :add }
-  it { should respond_to :create_folder }
-  # it { should respond_to :pack }
-  # it { should respond_to :install }
-  # it { should respond_to :new }
+  it { should respond_to :new }
+  xit { should respond_to :pack }
+  xit { should respond_to :install }
+  xit { should respond_to :new }
 
-  # it 'should create folder' do
-  #   subject.create_folder 'my_new_extension'
-  #   Dir.exists?('my_new_extension').should be_true
+  # it 'should create manifest' do
+  #   command :add, 'manifest'
+  #   File.read('manifest.json').should == fixture('manifest.json')
   # end
 
-  it 'should create manifest' do
-    subject.add 'manifest'
-    File.exists?('manifest.json').should be_true
+  # it 'should raise error with wrong name' do
+  #   expect { command :add, 'wrong_name.txt'}.to raise_error(ArgumentError) 
+  # end
+
+  let(:directory) { 'my_awesome_plugin' }
+
+  # it 'should create plugin directory' do
+  #   command :new, plugin
+  #   Dir.exists?(plugin).should be_true
+  # end
+
+  it 'should create browser plugin' do
+    command :new, directory
+
+    expected_files = ['manifest.json']
+
+    # plugin.should have_files(expected_files)
+
+
+    expected_files.each do |path|
+      file_path = "#{directory}/#{path}"
+      File.exists?(file_path).should be_true
+    end
   end
 
-  it 'should raise error with wrong name' do
-    expect { subject.add 'manifest.json'}.to raise_error(ArgumentError) 
-  end
+  # it 'should create page plugin' do
+  #   command :new, 'plugin', mode: 'page'
+  # end
 
   # xit 'should add content_script' do
   #   Crx::ContentScript.should_receive(:new).and_return(true)
@@ -31,5 +51,10 @@ describe Crx::Command do
   #   Crx::ContentScript.should_receive(:new).and_return(true)
   #   subject.add :content_script, {}
   # end
+
+  def command(name,*args)
+    options = args.extract_options!
+    subject.invoke name, args, options
+  end
 
 end

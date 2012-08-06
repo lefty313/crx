@@ -1,10 +1,10 @@
 require 'thor'
 
+require 'core_ext/string'
+require 'core_ext/array'
+
 require 'crx/version'
 require 'crx/saver'
-require 'core_ext/string'
-
-# require 'crx/templates/manifest'
 
 require 'crx/thor_command'
 require 'crx/command'

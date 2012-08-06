@@ -16,12 +16,20 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
 
-  config.before(:all) do
+  config.before(:suite) do
     @test_directory = Dir.mktmpdir
     Dir.chdir @test_directory
   end
 
   config.after(:all) do
-    FileUtils.rm_r @test_directory
+    # Dir.remove @test_directory
   end
+end
+
+def test_path
+  File.dirname __FILE__
+end
+
+def fixture(name)
+  File.read "#{test_path}/fixtures/#{name}"
 end
