@@ -13,7 +13,7 @@ module Crx
     end
 
     # method_option :mode, aliases: '-m', desc: 'extension ui type', default: 'browser'
-    desc "create_folder", "create main extension directory"
+    desc "new", "create new chrome plugin"
     def new(name)
       target = File.join(Dir.pwd, name)
 
