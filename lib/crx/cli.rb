@@ -1,5 +1,5 @@
 require 'thor'
-require 'ostruct'
+require 'crx'
 
 # https://github.com/wycats/thor/blob/master/spec/actions/file_manipulation_spec.rb
 # http://rdoc.info/github/wycats/thor/master/Thor/Actions#template-instance_method

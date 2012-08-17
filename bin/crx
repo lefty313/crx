@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'bundler'
+require 'crx/cli'
+
+Crx::Cli.start
