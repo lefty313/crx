@@ -21,6 +21,8 @@ module Crx
       template 'manifest.json', File.join(target,'manifest.json')
       template 'popup.html', File.join(target,'popup.html')
       template 'popup.js', File.join(target,'popup.js')
+
+      copy_file 'icon.png', File.join(target,'icon.png')
     end
 
   end
