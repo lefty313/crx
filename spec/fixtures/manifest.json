@@ -9,4 +9,5 @@
   "permissions": [
     "http://api.flickr.com/"
   ]
+  "default_popup": "popup.html"
 }
