@@ -25,7 +25,7 @@ module Crx
       copy_file 'icon.png',      path_for('icon.png')
     end
 
-    method_option :chrome_path, desc: 'path to chrome browser bin'
+    method_option :chrome_path, desc: 'path to chrome browser bin', default: 'chromium-browser'
     desc "load [PATH]", "load extension to chrome"
     def load(path)
       path = File.expand_path(path)
@@ -35,8 +35,7 @@ module Crx
     private
 
     def chrome
-      name = options[:chrome_path] || 'chromium-browser'
-      `which #{name}`.chomp
+      `which #{options[:chrome_path]}`.chomp
     end
 
     def execute(command)

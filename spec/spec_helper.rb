@@ -10,6 +10,9 @@
 require 'crx'
 require 'pry'
 
+$0 = "vmc"
+ARGV.clear
+
 RSpec::Matchers.define :have_files do |expected|
   match do |actual|
     @included, @missing = [], []
@@ -69,3 +72,15 @@ def fixture(name)
   File.read "#{test_path}/fixtures/#{name}"
 end
 
+def capture(stream)
+  begin
+    stream = stream.to_s
+    eval "$#{stream} = StringIO.new"
+    yield
+    result = eval("$#{stream}").string
+  ensure
+    eval("$#{stream} = #{stream.upcase}")
+  end
+
+  result
+end
