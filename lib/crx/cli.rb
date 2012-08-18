@@ -14,23 +14,22 @@ module Crx
     end
 
     # method_option :mode, aliases: '-m', desc: 'extension ui type', default: 'browser'
-    desc "new", "create new chrome plugin"
+    desc "new  [NAME]", "create new chrome plugin"
     def new(name)
-      target = File.join(Dir.pwd, name)
+      @target = File.join(Dir.pwd, name)
+      empty_directory @target
 
-      empty_directory target
-      template 'manifest.json', File.join(target,'manifest.json')
-      template 'popup.html', File.join(target,'popup.html')
-      template 'popup.js', File.join(target,'popup.js')
-
-      copy_file 'icon.png', File.join(target,'icon.png')
+      template  'manifest.json', path_for('manifest.json')
+      template  'popup.html',    path_for('popup.html')
+      template  'popup.js',      path_for('popup.js')
+      copy_file 'icon.png',      path_for('icon.png')
     end
 
     method_option :chrome_path, desc: 'path to chrome browser bin'
-    desc "load", "load extension to chrome"
+    desc "load [PATH]", "load extension to chrome"
     def load(path)
       path = File.expand_path(path)
-      Kernel.system("#{chrome} --load-extension=#{path}")
+      execute("#{chrome} --load-extension=#{path}")
     end
 
     private
@@ -38,6 +37,15 @@ module Crx
     def chrome
       name = options[:chrome_path] || 'chromium-browser'
       `which #{name}`.chomp
+    end
+
+    def execute(command)
+      Kernel.system(command)
+    end
+
+    def path_for(file)
+      raise "@target is not set" unless @target
+      File.join(@target,file)
     end
   end
 end
