@@ -10,7 +10,7 @@
 require 'crx'
 require 'pry'
 
-$0 = "vmc"
+$0 = "crx"
 ARGV.clear
 
 RSpec::Matchers.define :have_files do |expected|
