@@ -5,6 +5,7 @@ require 'core_ext/thor_actions'
 require 'crx/version'
 require 'crx/options'
 require 'crx/options/new'
+require 'crx/options/build'
 require 'crx/cli'
 
 module Crx

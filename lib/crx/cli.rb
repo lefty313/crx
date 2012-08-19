@@ -36,55 +36,14 @@ module Crx
     method_option :destination, desc: 'folder name for extension build', default: 'build'
     desc "build [PATH]", "build crx package"
     def build(path=nil)
-      @path = path || File.expand_path(Dir.pwd)
-      @target = File.join(path,options.fetch('destination'))
+      opt = Options::Build.new(path, options)
+      opt.validate!
 
-      empty_directory @target unless Dir.exist?(@target)
-
-      builder_options = {
-        :ex_dir => path,
-        :verbose => false,
-        :ignorefile => /\.swp/,
-        :ignoredir => /\.(?:svn|git|cvs)/
-      }
-
-      builder_options[:pkey_output] = pkey_path
-      builder_options[:pkey] = existed_pkey if existed_pkey
-      builder_options.merge!(output)
-
-      build_extension(builder_options)
+      empty_directory opt.target unless Dir.exist?(opt.target)
+      build_extension(opt.for_builder)
     end
 
     private
-
-    # return output path based on options[:format]
-    # {:crx_output => path} or {:zip_output => path}
-    def output
-      hash = Hash.new
-      key = :"#{format}_output"
-      hash[key] = File.join(@target,name_format)
-      hash
-    end
-
-    def name
-      Pathname.new(@path).basename
-    end
-
-    def format
-      options.fetch('format')
-    end
-
-    def name_format
-      "#{name}.#{format}"
-    end
-
-    def existed_pkey
-      Dir.glob(File.join(@target,'*.pem')).first
-    end
-
-    def pkey_path
-      File.join(@target,"#{name}.pem")
-    end
 
     def build_extension(opts)
       if opts[:crx_output]
@@ -96,11 +55,6 @@ module Crx
 
     def chrome
       `which #{options[:chrome_path]}`.chomp
-    end
-
-    def path_for(file)
-      raise "@target is not set" unless @target
-      File.join(@target,file)
     end
   end
 end
