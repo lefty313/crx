@@ -8,15 +8,19 @@ describe Crx::Options::New do
   context "wrong type" do
     let(:options) { {'type' => 'invalid'} }
 
-    it 'should not be valid with wrong type' do
+    it 'should not be valid' do
       subject.valid?.should be_false
       subject.errors.messages.should == {type: ["invalid is wrong type"]}
     end
+
+    it 'validate! should raise exception' do
+      expect {subject.validate!}.to raise_error(Crx::Options::ValidationError)
+    end 
   end
 
   context "empty type" do
     let(:options) { {} }
-    it 'should not be valid without type' do
+    it 'should not be valid' do
       subject.valid?.should be_false
       subject.errors.messages.should == {type: ["can't be blank", " is wrong type"]}
     end

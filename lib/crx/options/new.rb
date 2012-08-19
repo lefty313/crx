@@ -1,25 +1,14 @@
-require 'active_model'
-require 'active_model/validations'
-
 module Crx
   module Options
-    class FileContainer < Struct.new(:from,:to)
-    end
 
-    class New
-      include ActiveModel::Validations
-
+    class New < Default
       attr_accessor :name, :options, :type
       validates :type, presence: true, inclusion: {in: ['popup'], message: "%{value} is wrong type"}
 
-      def initialize(name, options, force_validate=false)
+      def initialize(name, options)
         self.name = name
         self.options = options
         self.type = options['type']
-
-        if force_validate
-          raise errors.full_messages.join(', ') unless valid?
-        end
       end
 
       def target

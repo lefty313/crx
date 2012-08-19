@@ -17,7 +17,8 @@ module Crx
     method_option :type, desc: "extension type [popup]", default: "popup"
     desc "new  [NAME]", "create new chrome plugin"
     def new(name)
-      opt = Options::New.new(name, options, true)
+      opt = Options::New.new(name, options)
+      opt.validate!
 
       empty_directory opt.target
       apply_templates opt.templates
