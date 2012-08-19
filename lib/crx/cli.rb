@@ -40,7 +40,7 @@ module Crx
       @path = path || File.expand_path(Dir.pwd)
       @target = File.join(path,options.fetch('destination'))
 
-      empty_directory @target
+      empty_directory @target unless Dir.exist?(@target)
 
       builder_options = {
         :ex_dir => path,
@@ -48,6 +48,7 @@ module Crx
         :ignorefile => /\.swp/,
         :ignoredir => /\.(?:svn|git|cvs)/
       }
+
       builder_options[:pkey_output] = pkey_path
       builder_options[:pkey] = existed_pkey if existed_pkey
       builder_options.merge!(output)
@@ -92,10 +93,6 @@ module Crx
       else
         CrxMake.zip(opts)
       end
-    end
-
-    def crx_format?
-      format == 'crx' ? true : false
     end
 
     def chrome

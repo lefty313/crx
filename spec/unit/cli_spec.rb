@@ -29,6 +29,7 @@ describe Crx::Cli do
 
     before do
       @defaults = {
+        ex_dir: extension_name,
         verbose: false,
         ignorefile:  /\.swp/,
         ignoredir: /\.(?:svn|git|cvs)/,
@@ -45,7 +46,6 @@ describe Crx::Cli do
 
     it 'should build crx package as default' do
       opts = @defaults.merge({
-        ex_dir: extension_name,
         crx_output: crx_build
       })
       CrxMake.should_receive(:make).with(opts)
@@ -54,7 +54,6 @@ describe Crx::Cli do
 
     it 'should build zip package' do
       opts = @defaults.merge({
-        ex_dir: extension_name,
         zip_output: zip_build
       })
       CrxMake.should_receive(:zip).with(opts)
@@ -64,7 +63,6 @@ describe Crx::Cli do
     it 'should use old pem key if exist in directory' do
       create_pkey
       opts = @defaults.merge({
-        ex_dir: extension_name,
         crx_output: crx_build,
         :pkey => existed_pkey
       })

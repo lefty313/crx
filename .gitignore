@@ -4,3 +4,5 @@ Gemfile.lock
 pkg/*
 .rspec
 ideas.txt
+coverage
+build
