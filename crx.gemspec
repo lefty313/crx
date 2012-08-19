@@ -27,4 +27,5 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency "thor"
   s.add_runtime_dependency "crxmake"
+  s.add_runtime_dependency "activemodel", "~>3.2"
 end

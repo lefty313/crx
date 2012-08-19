@@ -14,59 +14,14 @@ module Crx
       File.join(Crx::Rootpath, 'crx/templates')
     end
 
-    class FileContainer < Struct.new(:from,:to)
-    end
-
-    class NewArgument
-      attr_accessor :name, :options
-
-      def initialize(name, options)
-        self.name = name
-        self.options = options
-      end
-
-      def target
-        File.join(Dir.pwd,name)
-      end
-
-      def templates
-        files = ['manifest.json','index.html','index.js']
-        files = files.map do |file|
-          FileContainer.new(File.join(type,file),File.join(target,file))
-        end
-      end
-
-      def files
-        files = ['icon.png']
-        files = files.map do |file|
-          FileContainer.new(File.join(type,file),File.join(target,file))
-        end
-      end
-
-      def mode
-        options[:mode]
-      end
-
-      private
-
-      def type
-        supported_types = ['popup']
-        raise "#{mode} is not correct. Only #{supported_types}" unless supported_types.include?(mode)
-        mode   
-      end
-
-    end
-
-    # method_option :mode, aliases: '-m', desc: 'extension ui type', default: 'browser'
+    method_option :type, desc: "extension type [popup]", default: "popup"
     desc "new  [NAME]", "create new chrome plugin"
     def new(name)
-      @target = File.join(Dir.pwd, name)
-      empty_directory @target
+      opt = Options::New.new(name, options, true)
 
-      template  'manifest.json', path_for('manifest.json')
-      template  'popup.html',    path_for('popup.html')
-      template  'popup.js',      path_for('popup.js')
-      copy_file 'icon.png',      path_for('icon.png')
+      empty_directory opt.target
+      apply_templates opt.templates
+      copy_files      opt.files
     end
 
     method_option :chrome_path, desc: 'path to chrome browser bin', default: 'chromium-browser'
