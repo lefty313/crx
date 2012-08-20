@@ -51,19 +51,9 @@ RSpec::Matchers.define :have_files do |expected|
 end
 
 RSpec.configure do |config|
-
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
-
-  config.before(:suite) do
-    @test_directory = Dir.mktmpdir
-    Dir.chdir @test_directory
-  end
-
-  config.after(:all) do
-    # Dir.remove @test_directory
-  end
 end
 
 def test_path
@@ -83,6 +73,12 @@ def capture(stream)
   ensure
     eval("$#{stream} = #{stream.upcase}")
   end
-
   result
+end
+
+def in_temp_dir(&block)
+  dir = Dir.mktmpdir
+  Dir.chdir(dir, &block)
+ensure
+  FileUtils.rm_rf(dir)
 end

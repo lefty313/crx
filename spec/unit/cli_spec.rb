@@ -7,8 +7,10 @@ describe Crx::Cli do
     it 'should create plugin files' do
       expected_files = ['manifest.json','index.html','index.js','icon.png']
 
-      command ['new', dir_name]
-      dir_name.should have_files(expected_files)
+      in_temp_dir do
+        command ['new', dir_name]
+        dir_name.should have_files(expected_files)
+      end
     end
   end
 
@@ -31,15 +33,19 @@ describe Crx::Cli do
     it '--format=crx should build crx package' do
       expected_files = ['my_awesome_extension.crx',"#{extension_name}.pem"]
 
-      command ['build', extension_name, '--format','crx']
-      build_path.should have_files(expected_files)
+      in_temp_dir do
+        command ['build', extension_name, '--format','crx']
+        build_path.should have_files(expected_files)
+      end
     end
 
     it '--format=zip should build zip package' do
       expected_files = ["#{extension_name}.zip","#{extension_name}.pem"]
 
-      command ['build', extension_name, '--format', 'zip']
-      build_path.should have_files(expected_files)
+      in_temp_dir do
+        command ['build', extension_name, '--format', 'zip']
+        build_path.should have_files(expected_files)
+      end
     end
 
     xit 'should use old pem key if exist in directory' do
@@ -51,9 +57,7 @@ describe Crx::Cli do
   private
 
   def command(args)
-    # options = args.extract_options!
-    # subject.invoke name, args, options
-    subject.class.start args
+    capture(:stdout) { subject.class.start(args) }
   end
 
   def create_pkey
