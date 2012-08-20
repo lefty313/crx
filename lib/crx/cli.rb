@@ -40,7 +40,7 @@ module Crx
       opt.validate!
 
       empty_directory opt.target unless Dir.exist?(opt.target)
-      build_extension(opt.for_builder)
+      build_extension opt.for_builder
     end
 
     private

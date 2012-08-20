@@ -66,6 +66,17 @@ describe Crx::Options::Build do
 		it 'should be valid' do
 			subject.valid?.should be_true
 		end
+
+		it 'validate! should not raise exception' do
+			expect { subject.validate! }.not_to raise_error 
+		end
+	end
+
+	context "when it's invalid" do
+		it 'validate! should raise exception' do
+			subject.stub(:valid?).and_return(false)
+			expect {subject.validate!}.to raise_error(Crx::Options::ValidationError)
+		end
 	end
 
 	context "should be invalid" do
