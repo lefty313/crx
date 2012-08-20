@@ -41,13 +41,19 @@ module Crx
       end
 
       def builder_defaults
-        {
+        defaults = {
           ex_dir: path,
           pkey_output: File.join(target,"#{name}.pem"),
           verbose: false,
           ignorefile: /\.swp/,
           ignoredir: /\.(?:svn|git|cvs)/
         }
+        defaults[:pkey] = pkey if pkey
+        defaults
+      end
+
+      def pkey
+        Dir.glob("#{target}/*.pem").first
       end
 
     end

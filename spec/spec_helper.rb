@@ -61,7 +61,11 @@ def test_path
 end
 
 def fixture(name)
-  File.read "#{test_path}/fixtures/#{name}"
+  File.read(path_to_fixture(name).to_s)
+end
+
+def path_to_fixture(name)
+  Pathname.new("#{test_path}/fixtures/#{name}")
 end
 
 def capture(stream)

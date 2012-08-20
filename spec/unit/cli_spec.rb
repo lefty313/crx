@@ -48,19 +48,11 @@ describe Crx::Cli do
       end
     end
 
-    xit 'should use old pem key if exist in directory' do
-      # create_pkey
-      # command ['build', extension_name]
-    end
   end
 
   private
 
   def command(args)
     capture(:stdout) { subject.class.start(args) }
-  end
-
-  def create_pkey
-    Dir.stub(:glob).and_return([existed_pkey])
   end
 end
