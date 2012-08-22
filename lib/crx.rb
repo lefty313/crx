@@ -6,8 +6,10 @@ require 'crx/version'
 require 'crx/options'
 require 'crx/options/new'
 require 'crx/options/build'
+require 'crx/root'
 require 'crx/cli'
 
+require 'pry'
 module Crx
-  Rootpath = File.expand_path(File.dirname(__FILE__))
+  Rootpath = Pathname.new(File.expand_path(File.dirname(__FILE__)))
 end

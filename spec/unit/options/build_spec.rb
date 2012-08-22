@@ -3,7 +3,9 @@ require 'spec_helper'
 describe Crx::Options::Build do
   subject { Crx::Options::Build.new(path,options) }
 
-  let(:path) { 'path/to/my/extension' }
+  let(:path)    { Pathname.new('path/to/my/extension').expand_path }
+  let(:target)  { path.join('custom_build') }
+  let(:name)    { path.basename }
   let(:options) { @options }
   before do
     @options = {
@@ -14,7 +16,7 @@ describe Crx::Options::Build do
 
   context "with path" do
     it 'should expand given path' do
-      subject.path.should == File.expand_path(path)
+      subject.path.to_s.should == path.to_s
     end
   end
 
@@ -22,15 +24,15 @@ describe Crx::Options::Build do
     let(:path) { nil }
 
     it 'should use actual user directory as path' do
-      subject.path.should == File.expand_path(Dir.pwd)
+      subject.path.to_s.should == File.expand_path(Dir.pwd)
     end
   end
 
   context "when it's valid" do
     let(:builder_options) do
       {
-        ex_dir: subject.path,
-        pkey_output: File.join(subject.target,"#{subject.name}.pem"),
+        ex_dir: path.to_s,
+        pkey_output: target.join("#{name}.pem").to_s,
         verbose: false,
         ignorefile: /\.swp/,
         ignoredir: /\.(?:svn|git|cvs)/
@@ -38,18 +40,18 @@ describe Crx::Options::Build do
     end
 
     it 'should return target based on path and passed destination' do
-      subject.target.should == File.join(subject.path,options['destination'])
+      subject.target.to_s.should == path.join(options['destination']).to_s
     end
 
     it 'should return name based on path' do
-      subject.name.should == Pathname.new(path).basename.to_s
+      subject.name.should == name.to_s
     end
 
     it 'should return options for crx builder' do
       options['format'] = 'crx'
 
       expected_options = builder_options.merge({
-        crx_output: File.join(subject.target,"#{subject.name}.crx"),
+        crx_output: target.join("#{name}.crx").to_s,
       })
       subject.for_builder.should == expected_options
     end
@@ -58,13 +60,13 @@ describe Crx::Options::Build do
       options['format'] = 'zip'
 
       expected_options = builder_options.merge({
-        zip_output: File.join(subject.target,"#{subject.name}.zip")
+        zip_output: target.join("#{name}.zip").to_s
       })
       subject.for_builder.should == expected_options
     end
 
     it 'should return pkey path if exist' do
-      existed_pkey = File.join(subject.target,"#{subject.name}.pem")
+      existed_pkey = target.join("#{name}.pem").to_s
       stub_pkey(existed_pkey)
 
       subject.for_builder[:pkey].should == existed_pkey

@@ -7,15 +7,15 @@ module Crx
       validates :format, inclusion: {in: ['crx','zip'],  message: "you can use only [crx,zip]"}
 
       def initialize(extension_path=nil,options)
-        self.path = File.expand_path(extension_path || Dir.pwd)
+        self.path = Pathname.new(extension_path || Dir.pwd).expand_path
         self.options = options
         self.format = options['format']
         self.destination = options['destination']
-        self.name = Pathname.new(path).basename.to_s if path
+        self.name = path.basename.to_s
       end
 
       def target
-        File.join(path,destination)
+        path.join(destination)
       end
 
       def for_builder
@@ -33,17 +33,17 @@ module Crx
       end
 
       def crx_options
-        {crx_output: File.join(target,"#{name}.crx")}
+        {crx_output: target.join("#{name}.crx").to_s}
       end
 
       def zip_options
-        {zip_output: File.join(target,"#{name}.zip")}
+        {zip_output: target.join("#{name}.zip").to_s}
       end
 
       def builder_defaults
         defaults = {
-          ex_dir: path,
-          pkey_output: File.join(target,"#{name}.pem"),
+          ex_dir: path.to_s,
+          pkey_output: target.join("#{name}.pem").to_s,
           verbose: false,
           ignorefile: /\.swp/,
           ignoredir: /\.(?:svn|git|cvs)/
