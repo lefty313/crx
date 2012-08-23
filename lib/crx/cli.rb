@@ -43,6 +43,17 @@ module Crx
       build_extension opt.for_builder
     end
 
+    method_option :destination, desc: 'folder name for compiled extension', default: 'build/compiled'
+    method_option :minimize, desc: 'minimization', type: :boolean, default: true
+    desc "compile [PATH]", "compile extension"
+    def compile(path=nil)
+      opt = Options::Compile.new(path, options)
+      opt.validate!
+
+      Crx.compiler.add_path   opt.path
+      Crx.compiler.compile_to opt.target, minimize: opt.minimize
+    end
+
     private
 
     def build_extension(opts)

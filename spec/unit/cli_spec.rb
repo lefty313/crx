@@ -47,12 +47,36 @@ describe Crx::Cli do
         build_path.should have_files(expected_files)
       end
     end
+  end
 
+  context "crx compile" do
+    # let(:path) { 'path/to/not_compiled_extension'}
+
+    it 'should compile assets from given path' do
+      expected_files = [
+        'build/compiled/assets/app.js',
+        'build/compiled/assets/css/app.css'
+      ]
+
+      in_temp_dir do
+        path = Dir.pwd
+        create_assets
+
+        command ['compile', path]
+        path.should have_files(expected_files)
+
+      end
+    end
   end
 
   private
 
   def command(args)
     capture(:stdout) { subject.class.start(args) }
+  end
+
+  def create_assets
+    assets = path_to_fixture('assets')
+    FileUtils.cp_r assets, Dir.pwd
   end
 end
