@@ -7,11 +7,11 @@ describe Crx::Cli do
     it 'should create plugin files' do
       expected_files = [
         'Gemfile',
-        'manifest.json',
-        'index.hamlc',
-        'images/icon.png',
-        'javascripts/application.js',
-        'stylesheets/application.css'
+        'app/manifest.json',
+        'app/index.hamlc',
+        'app/images/icon.png',
+        'app/javascripts/application.js',
+        'app/stylesheets/application.css'
       ]
 
 
@@ -62,8 +62,10 @@ describe Crx::Cli do
 
     it 'should compile assets from given path' do
       expected_files = [
-        'build/compiled/assets/app.js',
-        'build/compiled/assets/css/app.css'
+        'build/compiled/javascripts/application.js',
+        'build/compiled/stylesheets/application.css',
+        'build/compiled/images/icon.png',
+        'build/compiled/manifest.json',
       ]
 
       in_temp_dir do
@@ -84,7 +86,7 @@ describe Crx::Cli do
   end
 
   def create_assets
-    assets = path_to_fixture('assets')
-    FileUtils.cp_r assets, Dir.pwd
+    assets = path_to_fixture('app')
+    FileUtils.cp_r File.join(assets,"/."), Dir.pwd
   end
 end
