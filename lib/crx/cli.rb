@@ -14,14 +14,15 @@ module Crx
       File.join(Crx::Rootpath, 'crx/templates')
     end
 
-    method_option :type, desc: "extension type [popup]", default: "popup"
+    method_option :type, desc: "extension type [browser_action, page_action]", default: "browser_action"
     desc "new  [NAME]", "create new chrome plugin"
     def new(name)
       opt = Options::New.new(name, options)
       opt.validate!
 
-      directory "defaults", name
-      directory "browser_action", name
+      opt.directories.each do |dir|
+        directory dir, opt.name
+      end
     end
 
     method_option :chrome_path, desc: 'path to chrome browser bin', default: 'chromium-browser'

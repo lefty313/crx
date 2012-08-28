@@ -26,27 +26,27 @@ describe Crx::Options::New do
     end
   end
 
-  context "type == popup" do
-    let(:options) { {'type' => 'popup'} }
-  
-    it 'should return target based on name' do
-      subject.target.should == File.join(Dir.pwd,name)
-    end
+  context "type == page_action" do
+    let(:options) { {'type' => 'page_action'} }
 
-    it 'should return template files' do
-      files = [
-        file.new("popup/manifest.json",File.join(subject.target,'manifest.json')),
-        file.new("popup/index.html",File.join(subject.target,'index.html')),
-        file.new("popup/index.js",File.join(subject.target,'index.js')),
+    it 'should return directories to copy' do
+      expected_directories = [
+        'defaults',
+        'page_action'
       ]
-      subject.templates.should == files
+      subject.directories.should == expected_directories
     end
+  end
 
-    it 'should return files to copy' do
-      files = [
-        file.new("popup/icon.png",File.join(subject.target,'icon.png'))
+  context "type == browser_action" do
+    let(:options) { {'type' => 'browser_action'} }
+
+    it 'should return directories to copy' do
+      expected_directories = [
+        'defaults',
+        'browser_action'
       ]
-      subject.files.should == files
+      subject.directories.should == expected_directories
     end
   end
 end
