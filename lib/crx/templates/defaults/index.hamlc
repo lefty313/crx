@@ -1,0 +1,7 @@
+!!! 5
+%html
+  %head
+    %title Getting Started Extension's Popup
+    %script{:src => "stylesheets/application.css"}
+    %script{:src => "javascripts/application.js"}
+  %body

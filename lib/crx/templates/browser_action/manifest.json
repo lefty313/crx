@@ -1,0 +1,11 @@
+{
+  "name": "Extension name",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Extenstion description",
+  "browser_action": {
+    "default_title": "Extension name",
+    "default_icon": "images/icon.png",
+    "default_popup": "index.html"
+  }
+}

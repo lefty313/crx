@@ -20,9 +20,8 @@ module Crx
       opt = Options::New.new(name, options)
       opt.validate!
 
-      empty_directory opt.target
-      apply_templates opt.templates
-      copy_files      opt.files
+      directory "defaults", name
+      directory "browser_action", name
     end
 
     method_option :chrome_path, desc: 'path to chrome browser bin', default: 'chromium-browser'

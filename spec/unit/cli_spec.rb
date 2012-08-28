@@ -5,7 +5,15 @@ describe Crx::Cli do
     let(:dir_name) {'example_plugin'}
 
     it 'should create plugin files' do
-      expected_files = ['manifest.json','index.html','index.js','icon.png']
+      expected_files = [
+        'Gemfile',
+        'manifest.json',
+        'index.hamlc',
+        'images/icon.png',
+        'javascripts/application.js',
+        'stylesheets/application.css'
+      ]
+
 
       in_temp_dir do
         command ['new', dir_name]
@@ -49,7 +57,7 @@ describe Crx::Cli do
     end
   end
 
-  context "crx compile" do
+  context "crx compile", slow: true do
     # let(:path) { 'path/to/not_compiled_extension'}
 
     it 'should compile assets from given path' do
