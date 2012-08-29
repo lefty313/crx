@@ -50,6 +50,9 @@ module Crx
       opt = Options::Compile.new(path, options)
       opt.validate!
 
+      remove_dir opt.target
+      say_status('compile',"assets to #{opt.relative_target}", :green)
+
       Crx.compiler.add_path   opt.path
       Crx.compiler.compile_to opt.target, minimize: opt.minimize
     end

@@ -15,7 +15,7 @@ describe Crx::Options::Compile do
 
   context "with path" do
     it 'should expand given path' do
-      subject.path.to_s.should == path.to_s
+      subject.path.to_s.should == path.join('app').to_s
     end
   end
 
@@ -23,7 +23,7 @@ describe Crx::Options::Compile do
     let(:path) { nil }
 
     it 'should use actual user directory as path' do
-      subject.path.to_s.should == File.expand_path(Dir.pwd)
+      subject.path.to_s.should == File.expand_path(File.join(Dir.pwd,'app'))
     end
   end
 
@@ -34,6 +34,10 @@ describe Crx::Options::Compile do
 
     it 'should return minimize option' do
       subject.minimize.should == @options['minimize']
+    end
+
+    it 'should return relative target' do
+      subject.relative_target.should == target.relative_path_from(path)
     end
 
     it 'should be valid' do
