@@ -54,6 +54,7 @@ describe Crx::Options::Build do
         crx_output: target.join("#{name}.crx").to_s,
       })
       subject.for_builder.should == expected_options
+      subject.package.should == target.join("#{name}.crx")
     end
 
     it 'should return options for zip builder' do
@@ -63,6 +64,7 @@ describe Crx::Options::Build do
         zip_output: target.join("#{name}.zip").to_s
       })
       subject.for_builder.should == expected_options
+      subject.package.should == target.join("#{name}.zip")
     end
 
     it 'should return pkey path if exist' do

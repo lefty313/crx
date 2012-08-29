@@ -26,6 +26,14 @@ module Crx
         end
       end
 
+      def package
+        @package = if format_is_crx
+          target.join("#{name}.crx")
+        else
+          target.join("#{name}.zip")
+        end
+      end
+
       private
 
       def format_is_crx

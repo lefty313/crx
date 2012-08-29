@@ -41,6 +41,9 @@ module Crx
 
       invoke :compile, [path], []
 
+      package = relative_to_original_destination_root opt.package.to_s
+      say_status('build',package)
+      
       empty_directory opt.target unless Dir.exist?(opt.target)
       build_extension opt.for_builder
     end
@@ -53,7 +56,9 @@ module Crx
       opt.validate!
 
       remove_dir opt.target
-      say_status('compile',"assets to #{opt.relative_target}", :green)
+
+      relative_target = relative_to_original_destination_root(opt.target.to_s)
+      say_status('compile',relative_target, :green)
 
       Crx.compiler.add_path   opt.path
       Crx.compiler.compile_to opt.target, minimize: opt.minimize

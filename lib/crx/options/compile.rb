@@ -18,10 +18,6 @@
         @extension_path.join(destination)
       end
 
-      def relative_target
-        target.relative_path_from(@extension_path)
-      end
-
     end
   end
 end

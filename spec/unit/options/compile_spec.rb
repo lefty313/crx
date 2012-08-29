@@ -36,10 +36,6 @@ describe Crx::Options::Compile do
       subject.minimize.should == @options['minimize']
     end
 
-    it 'should return relative target' do
-      subject.relative_target.should == target.relative_path_from(path)
-    end
-
     it 'should be valid' do
       subject.valid?.should be_true
     end
