@@ -8,7 +8,7 @@ describe Crx::Cli do
       expected_files = [
         'Gemfile',
         'app/manifest.json',
-        'app/index.hamlc',
+        'app/index.html',
         'app/images/icon.png',
         'app/javascripts/application.js',
         'app/stylesheets/application.css'

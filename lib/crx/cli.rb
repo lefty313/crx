@@ -39,6 +39,8 @@ module Crx
       opt = Options::Build.new(path, options)
       opt.validate!
 
+      invoke :compile, [path], []
+
       empty_directory opt.target unless Dir.exist?(opt.target)
       build_extension opt.for_builder
     end
