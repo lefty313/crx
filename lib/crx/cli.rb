@@ -61,6 +61,9 @@ module Crx
       say_status('compile',relative_target, :green)
 
       Crx.compiler.add_path   opt.path
+      Crx.compiler.add_path   opt.path.join('javascripts')
+      Crx.compiler.add_path   opt.path.join('stylesheets')
+      Crx.compiler.add_path   opt.path.join('images')
       Crx.compiler.compile_to opt.target, minimize: opt.minimize
     end
 
