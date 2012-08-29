@@ -31,7 +31,7 @@ describe Crx::Options::Build do
   context "when it's valid" do
     let(:builder_options) do
       {
-        ex_dir: path.to_s,
+        ex_dir: path.join('app').to_s,
         pkey_output: target.join("#{name}.pem").to_s,
         verbose: false,
         ignorefile: /\.swp/,

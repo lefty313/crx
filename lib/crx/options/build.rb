@@ -42,7 +42,7 @@ module Crx
 
       def builder_defaults
         defaults = {
-          ex_dir: path.to_s,
+          ex_dir: path.join('app').to_s,
           pkey_output: target.join("#{name}.pem").to_s,
           verbose: false,
           ignorefile: /\.swp/,

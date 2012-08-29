@@ -36,12 +36,15 @@ describe Crx::Cli do
 
   context "crx build" do
     let(:extension_name) {'my_awesome_extension'}
-    let(:build_path) {"#{extension_name}/build"}
+    let(:build_path)     {"#{extension_name}/build"}
+    let(:app_path)       {"#{extension_name}/app"}
 
     it '--format=crx should build crx package' do
       expected_files = ['my_awesome_extension.crx',"#{extension_name}.pem"]
 
       in_temp_dir do
+        create_app_dir(app_path)
+
         command ['build', extension_name, '--format','crx']
         build_path.should have_files(expected_files)
       end
@@ -51,6 +54,8 @@ describe Crx::Cli do
       expected_files = ["#{extension_name}.zip","#{extension_name}.pem"]
 
       in_temp_dir do
+        create_app_dir(app_path)
+
         command ['build', extension_name, '--format', 'zip']
         build_path.should have_files(expected_files)
       end
@@ -88,5 +93,9 @@ describe Crx::Cli do
   def create_assets
     assets = path_to_fixture('app')
     FileUtils.cp_r File.join(assets,"/."), Dir.pwd
+  end
+
+  def create_app_dir(dir)
+    FileUtils.mkdir_p(dir)
   end
 end
