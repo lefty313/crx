@@ -33,7 +33,7 @@ module Crx
     end
 
     method_option :format, desc: 'extension build format: [zip,crx]', default: 'crx'
-    method_option :destination, desc: 'folder name for extension build', default: 'build'
+    method_option :destination, desc: 'folder name for extension build', default: Crx.config.build_path
     desc "build [PATH]", "build crx package"
     def build(path=nil)
       opt = Options::Build.new(path, options)
@@ -47,8 +47,8 @@ module Crx
       build_extension opt.for_builder
     end
 
-    method_option :destination, desc: 'folder name for compiled extension', default: 'build/compiled'
-    method_option :minimize, desc: 'minimization', type: :boolean, default: true
+    method_option :destination, desc: 'folder name for compiled extension', default: Crx.config.compile_path
+    method_option :minimize, desc: 'minimization', type: :boolean, default: Crx.config.minimize
     desc "compile [PATH]", "compile extension"
     def compile(path=nil)
       opt = Options::Compile.new(path, options)
@@ -57,10 +57,14 @@ module Crx
       remove_dir opt.target
       say_relative_path('compile',opt.target)
 
-      Crx.compiler.add_path   opt.path
-      Crx.compiler.add_path   opt.path.join('javascripts')
-      Crx.compiler.add_path   opt.path.join('stylesheets')
-      Crx.compiler.add_path   opt.path.join('images')
+      Crx.config.assets_paths do |path|
+        Crx.compiler.add_path path
+      end
+
+      # Crx.compiler.add_path   opt.path
+      # Crx.compiler.add_path   opt.path.join('javascripts')
+      # Crx.compiler.add_path   opt.path.join('stylesheets')
+      # Crx.compiler.add_path   opt.path.join('images')
       Crx.compiler.compile_to opt.target, minimize: opt.minimize
     end
 

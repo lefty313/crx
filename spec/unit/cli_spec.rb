@@ -80,7 +80,7 @@ describe Crx::Cli do
         command ['compile', path]
         path.should have_files(expected_files)
 
-      end
+      end  
     end
   end
 

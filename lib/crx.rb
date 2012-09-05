@@ -5,6 +5,7 @@ require 'core_ext/thor_actions'
 
 require 'crx/version'
 require 'crx/options'
+require 'crx/config'
 require 'crx/compressors/css'
 require 'crx/compressors/js'
 require 'crx/options/new'
