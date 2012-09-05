@@ -59,6 +59,9 @@ describe Crx::Compiler do
   it 'compile_to should minimize assets' do
     subject.compile_to(compiled_path, minimize: true)
 
+    # subject.js_compressor.should be_instance_of Crx::Compressors::Js
+    # subject.css_compressor.should be_instance_of Crx::Compressors::Css
+
     engine.js_compressor.should be_instance_of Crx::Compressors::Js
     engine.css_compressor.should be_instance_of Crx::Compressors::Css
   end

@@ -11,8 +11,8 @@ module Crx
 
     def compile_to(path, opt={})
       if opt[:minimize]
-        __getobj__.js_compressor  = Compressors::Js.new
-        __getobj__.css_compressor = Compressors::Css.new
+        self.js_compressor  = Compressors::Js.new
+        self.css_compressor = Compressors::Css.new
       end
 
       assets.each {|asset| asset.save_to(path) }

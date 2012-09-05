@@ -41,8 +41,7 @@ module Crx
 
       invoke :compile, [path], []
 
-      package = relative_to_original_destination_root opt.package.to_s
-      say_status('build',package)
+        say_relative_path('build',opt.package)
       
       empty_directory opt.target unless Dir.exist?(opt.target)
       build_extension opt.for_builder
@@ -54,11 +53,9 @@ module Crx
     def compile(path=nil)
       opt = Options::Compile.new(path, options)
       opt.validate!
-
+  
       remove_dir opt.target
-
-      relative_target = relative_to_original_destination_root(opt.target.to_s)
-      say_status('compile',relative_target, :green)
+      say_relative_path('compile',opt.target)
 
       Crx.compiler.add_path   opt.path
       Crx.compiler.add_path   opt.path.join('javascripts')
