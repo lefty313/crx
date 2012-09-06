@@ -48,6 +48,7 @@ module Crx
       
       build_extension opt.for_builder
     end
+    
     method_option :destination, default: Crx.config.compile_path, desc: 'folder name for compiled extension'
     method_option :minimize, type: :boolean, default: Crx.config.minimize, desc: 'minimization'
     method_option :merge, type: :boolean, default: Crx.config.merge, desc: 'concatenation assets to single file'

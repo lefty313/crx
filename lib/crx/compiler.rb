@@ -2,7 +2,7 @@ require 'delegate'
 
 module Crx
 
-  # compiler should respond_to :append_path, :assets, :js_compressor, :css_compressor
+  # compiler should respond_to :append_path, :assets, :js_compressor, :css_compressor, :filter
   class Compiler < SimpleDelegator
 
     def add_path(path)
