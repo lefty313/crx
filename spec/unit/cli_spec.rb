@@ -16,7 +16,7 @@ describe Crx::Cli do
 
 
       in_temp_dir do
-        command ['new', dir_name]
+        command ['new', dir_name,'--bundle','false']
         dir_name.should have_files(expected_files)
       end
     end

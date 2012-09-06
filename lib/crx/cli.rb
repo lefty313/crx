@@ -15,6 +15,7 @@ module Crx
     end
 
     method_option :type, desc: "extension type [browser_action, page_action]", default: "browser_action"
+    method_option :bundle, type: :boolean, default: true, desc: "run bundle install"
     desc "new  [NAME]", "create new chrome plugin"
     def new(name)
       opt = Options::New.new(name, options)
@@ -23,6 +24,7 @@ module Crx
       opt.directories.each do |dir|
         directory dir, opt.name
       end
+      bundle_install(File.join(name,'Gemfile')) if options[:bundle]
     end
 
     method_option :chrome_path, desc: 'path to chrome browser bin', default: 'chromium-browser'
@@ -46,7 +48,6 @@ module Crx
       
       build_extension opt.for_builder
     end
-
     method_option :destination, default: Crx.config.compile_path, desc: 'folder name for compiled extension'
     method_option :minimize, type: :boolean, default: Crx.config.minimize, desc: 'minimization'
     method_option :merge, type: :boolean, default: Crx.config.merge, desc: 'concatenation assets to single file'
@@ -63,6 +64,10 @@ module Crx
     end
 
     private
+
+    def bundle_install(gemfile)
+      system("bundle install --gemfile=#{gemfile}")
+    end
 
     def build_extension(opts)
       if opts[:crx_output]
