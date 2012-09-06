@@ -4,6 +4,9 @@ require 'sprockets'
 module Crx
   class SprocketCompiler
 
+    attr_accessor :filter
+    attr_reader   :engine
+
     class Asset < SimpleDelegator
       def save_to(destination)
         filename = destination.join(logical_path)
@@ -14,6 +17,7 @@ module Crx
 
     def initialize(engine = nil)
       @engine = engine || Sprockets::Environment.new
+      @filter = //
     end
 
     def append_path(path)
@@ -36,8 +40,12 @@ module Crx
 
     private
 
+    def paths
+      @engine.each_logical_path(filter)
+    end
+
     def find_asset
-      @engine.each_logical_path.map do |path|
+      paths.map do |path|
         @engine.find_asset(path)
       end
     end

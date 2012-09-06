@@ -62,26 +62,19 @@ describe Crx::Cli do
     end
   end
 
-  context "crx compile", slow: true do
-    # let(:path) { 'path/to/not_compiled_extension'}
+  context "crx compile" do
+    let(:path) { Pathname.new('path/to/not_compiled_extension') }
 
-    it 'should compile assets from given path' do
-      expected_files = [
-        'build/compiled/javascripts/application.js',
-        'build/compiled/stylesheets/application.css',
-        'build/compiled/images/icon.png',
-        'build/compiled/manifest.json',
-      ]
+    it 'should merge and minimize assets when user want it' do
+      compiler = mock.as_null_object
+      compiler.should_receive(:compile_to).with(path.join('build/compile'), minimize: true, merge: true)
+      Crx.stub(:compiler).and_return(compiler)
 
       in_temp_dir do
-        path = Dir.pwd
-        create_assets
-
-        command ['compile', path]
-        path.should have_files(expected_files)
-
-      end  
+        command ['compile', path.to_s, '--merge','true','--minimize','true']
+      end
     end
+
   end
 
   private

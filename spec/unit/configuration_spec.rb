@@ -28,6 +28,22 @@ describe Crx::config do
 
       Crx.config.assets_paths.should == expected_paths
     end
+
+    it 'should return merge option' do
+      Crx.config.merge.should be_false
+    end
+
+    it 'should return filters for sprockets minimization' do
+      filters = Crx.config.assets_filters
+      proc_filter = filters[0]
+      regexp_filter = filters[1]
+
+      proc_filter.call('foo.bar').should be_true
+      proc_filter.call('abcd.js').should be_false
+      proc_filter.call('foo.css').should be_false
+
+      regexp_filter.should == /(?:\/|\\|\A)application\.(css|js)$/
+    end
   end
 
   describe "custom" do

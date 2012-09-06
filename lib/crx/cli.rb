@@ -39,33 +39,27 @@ module Crx
       opt = Options::Build.new(path, options)
       opt.validate!
 
+      empty_directory opt.target unless Dir.exist?(opt.target)
       invoke :compile, [path], []
 
-        say_relative_path('build',opt.package)
+      say_relative_path('build',opt.package)
       
-      empty_directory opt.target unless Dir.exist?(opt.target)
       build_extension opt.for_builder
     end
 
-    method_option :destination, desc: 'folder name for compiled extension', default: Crx.config.compile_path
-    method_option :minimize, desc: 'minimization', type: :boolean, default: Crx.config.minimize
+    method_option :destination, default: Crx.config.compile_path, desc: 'folder name for compiled extension'
+    method_option :minimize, type: :boolean, default: Crx.config.minimize, desc: 'minimization'
+    method_option :merge, type: :boolean, default: Crx.config.merge, desc: 'concatenation assets to single file'
     desc "compile [PATH]", "compile extension"
     def compile(path=nil)
-      opt = Options::Compile.new(path, options)
-      opt.validate!
-  
-      remove_dir opt.target
-      say_relative_path('compile',opt.target)
+      path = Pathname.new(path || Dir.pwd)
+      target = path.join(options[:destination]) 
 
-      Crx.config.assets_paths do |path|
-        Crx.compiler.add_path path
-      end
+      clean_or_create_directory(target)
+      Crx.config.assets_paths.each { |path| Crx.compiler.add_path(path) }
 
-      # Crx.compiler.add_path   opt.path
-      # Crx.compiler.add_path   opt.path.join('javascripts')
-      # Crx.compiler.add_path   opt.path.join('stylesheets')
-      # Crx.compiler.add_path   opt.path.join('images')
-      Crx.compiler.compile_to opt.target, minimize: opt.minimize
+      say_relative_path('compile',target)
+      Crx.compiler.compile_to target, minimize: options[:minimize], merge: options[:merge]
     end
 
     private

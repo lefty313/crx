@@ -2,19 +2,35 @@ require 'pry'
 
 module Crx
   class Config
-    attr_accessor :build_path, :build_format, :compile_path, :minimize, :assets_paths
+    attr_accessor :build_path, :build_format, :compile_path,
+    :minimize, :assets_paths, :assets_filters, :merge
 
     def initialize
       self.build_path   = 'build'
       self.build_format = 'crx'
       self.compile_path = 'build/compile'
       self.minimize     = true
+      self.merge        = false
       self.assets_paths = [
         'app',
         'app/javascripts',
         'app/stylesheets',
         'app/images'
       ]
+      self.assets_filters = [
+        all_files_without_js_css,
+        application_js_css
+      ]
+    end
+
+    private
+
+    def all_files_without_js_css
+      Proc.new{ |path| !['.js', '.css'].include?(File.extname(path)) }
+    end
+
+    def application_js_css
+      /(?:\/|\\|\A)application\.(css|js)$/
     end
   end
 

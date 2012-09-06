@@ -23,4 +23,11 @@ module Crx
     @compiler ||= Crx::Compiler.new(SprocketCompiler.new)
   end
 
+  private
+
+  def self.try_load_user_config
+    config = Pathname.new(Dir.pwd).join("config.rb")
+    eval(config.read) if config.exist?
+  end
+  try_load_user_config
 end

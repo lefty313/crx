@@ -15,6 +15,10 @@ module Crx
         self.css_compressor = Compressors::Css.new
       end
 
+      if opt[:merge]
+        self.filter = Crx.config.assets_filters
+      end
+
       assets.each {|asset| asset.save_to(path) }
     end
   end

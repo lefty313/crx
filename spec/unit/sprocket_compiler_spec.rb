@@ -52,4 +52,20 @@ describe Crx::SprocketCompiler do
       asset.should be_instance_of Crx::SprocketCompiler::Asset
     end
   end
-end
+
+  it 'should use filter when defined' do
+    filter =  [Proc.new { 'procfilter' },Regexp.new('regexpfilter')]
+    subject.filter = filter
+    subject.engine.should_receive(:each_logical_path).with(filter).and_return(Enumerator.new([]))
+
+    subject.assets
+  end
+
+  it 'should use wildcard filter as default' do
+    filter = //
+    subject.engine.should_receive(:each_logical_path).with(filter).and_return(Enumerator.new([]))
+
+    subject.assets
+  end
+
+ end

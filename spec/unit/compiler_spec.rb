@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 class DummyEngine
-  attr_accessor :paths, :js_compressor, :css_compressor
+  attr_accessor :paths, :js_compressor, :css_compressor, :filter
   attr_reader :assets
 
   def initialize
@@ -12,7 +12,7 @@ class DummyEngine
     paths << path
   end
 
-  def assets
+  def assets(opt = {})
     @assets ||= begin 
       [
         DummyAsset.new(Object.new),
@@ -56,11 +56,14 @@ describe Crx::Compiler do
     subject.compile_to(compiled_path)
   end
 
+  it 'compile_to should merge assets' do
+    subject.compile_to(compiled_path, merge: true)
+
+    engine.filter.should == Crx.config.assets_filters
+  end
+
   it 'compile_to should minimize assets' do
     subject.compile_to(compiled_path, minimize: true)
-
-    # subject.js_compressor.should be_instance_of Crx::Compressors::Js
-    # subject.css_compressor.should be_instance_of Crx::Compressors::Css
 
     engine.js_compressor.should be_instance_of Crx::Compressors::Js
     engine.css_compressor.should be_instance_of Crx::Compressors::Css
