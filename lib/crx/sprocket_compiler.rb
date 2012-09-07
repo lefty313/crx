@@ -10,7 +10,7 @@ module Crx
     class Asset < SimpleDelegator
       def save_to(destination)
         filename = destination.join(logical_path)
-        FileUtils.mkpath(filename.dirname)
+        filename.dirname.mkpath
         write_to(filename)
       end
     end

@@ -12,10 +12,10 @@ module Crx
       self.minimize     = true
       self.merge        = false
       self.assets_paths = [
-        'app',
         'app/javascripts',
         'app/stylesheets',
-        'app/images'
+        'app/images',
+        'app'
       ]
       self.assets_filters = [
         all_files_without_js_css,

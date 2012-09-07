@@ -23,6 +23,10 @@ module Crx
     @compiler ||= Crx::Compiler.new(SprocketCompiler.new)
   end
 
+  def self.user_dir
+    Pathname.new(Dir.pwd)
+  end
+
   private
 
   def self.try_load_user_config

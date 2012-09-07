@@ -34,7 +34,7 @@ module Crx
       run("#{chrome} --load-extension=#{path}")
     end
 
-    method_option :format, desc: 'extension build format: [zip,crx]', default: 'crx'
+    method_option :format, desc: 'extension build format: [zip,crx]', default: Crx.config.build_format
     method_option :destination, desc: 'folder name for extension build', default: Crx.config.build_path
     desc "build [PATH]", "build crx package"
     def build(path=nil)
@@ -48,7 +48,7 @@ module Crx
       
       build_extension opt.for_builder
     end
-    
+
     method_option :destination, default: Crx.config.compile_path, desc: 'folder name for compiled extension'
     method_option :minimize, type: :boolean, default: Crx.config.minimize, desc: 'minimization'
     method_option :merge, type: :boolean, default: Crx.config.merge, desc: 'concatenation assets to single file'

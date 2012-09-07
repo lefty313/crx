@@ -20,10 +20,10 @@ describe Crx::config do
 
     it 'should return assets_path' do
       expected_paths = [
-        'app',
         'app/javascripts',
         'app/stylesheets',
-        'app/images'
+        'app/images',
+        'app'
       ]
 
       Crx.config.assets_paths.should == expected_paths
