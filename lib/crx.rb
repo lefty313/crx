@@ -23,6 +23,10 @@ module Crx
     @compiler ||= Crx::Compiler.new(SprocketCompiler.new)
   end
 
+  def self.remove_compiler
+    @compiler = nil
+  end
+
   def self.user_dir
     Pathname.new(Dir.pwd)
   end

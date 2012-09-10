@@ -44,6 +44,11 @@ describe Crx::SprocketCompiler do
     subject.append_path(path)
   end
 
+  it 'should delete paths' do
+    engine.should_receive(:clear_paths)
+    subject.clear_paths
+  end
+
   it 'should return assets' do
     subject.stub(:find_asset).and_return(fake_assets)
 

@@ -22,6 +22,10 @@ class DummyEngine
     end  
   end
 
+  def clear_paths
+    self.paths = []
+  end
+
 end
 
 class DummyAsset
@@ -48,6 +52,14 @@ describe Crx::Compiler do
     subject.add_path path2
 
     subject.paths.should == [path1, path2]
+  end
+
+  it 'remove_paths should remove all paths' do
+    subject.add_path 'foo'
+    subject.add_path 'bar'
+
+    subject.clear_paths
+    subject.paths.should == []
   end
 
   it 'compile_to should compile assets' do

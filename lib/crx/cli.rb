@@ -58,7 +58,7 @@ module Crx
       target = path.join(options[:destination]) 
 
       clean_or_create_directory(target)
-      Crx.config.assets_paths.each { |path| Crx.compiler.add_path(path) }
+      Crx.config.assets_paths.each { |asset| Crx.compiler.add_path(path.join(asset)) }
 
       say_relative_path('compile',target)
       Crx.compiler.compile_to target, minimize: options[:minimize], merge: options[:merge]

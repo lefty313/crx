@@ -24,6 +24,10 @@ module Crx
       @engine.append_path path
     end
 
+    def clear_paths
+      @engine.clear_paths
+    end
+
     def assets
       find_asset.map do |asset|
         Asset.new(asset)
