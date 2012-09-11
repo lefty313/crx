@@ -4,12 +4,13 @@ describe Crx::Options::Build do
   subject { Crx::Options::Build.new(path,options) }
 
   let(:path)    { Pathname.new('path/to/my/extension').expand_path }
-  let(:target)  { path.join('custom_build') }
+  let(:target)  { path.join('build') }
   let(:name)    { path.basename }
   let(:options) { @options }
+  let(:compile_path) { 'build/compile' }
   before do
     @options = {
-      'destination' => 'custom_build',
+      'destination' => 'build',
       'format' => 'crx'
     }
   end
@@ -31,7 +32,7 @@ describe Crx::Options::Build do
   context "when it's valid" do
     let(:builder_options) do
       {
-        ex_dir: path.join('app').to_s,
+        ex_dir: path.join(compile_path).to_s,
         pkey_output: target.join("#{name}.pem").to_s,
         verbose: false,
         ignorefile: /\.swp/,

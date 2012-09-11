@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe Crx::config do
+
+  after do
+    Crx.config.set_defaults
+  end
+
   describe "defaults" do
     it 'should return build path' do
       Crx.config.build_path.should == 'build'

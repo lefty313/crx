@@ -6,6 +6,10 @@ module Crx
     :minimize, :assets_paths, :assets_filters, :merge
 
     def initialize
+      set_defaults
+    end
+
+    def set_defaults
       self.build_path   = 'build'
       self.build_format = 'crx'
       self.compile_path = 'build/compile'
